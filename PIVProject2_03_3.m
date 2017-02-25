@@ -48,9 +48,8 @@ f = 1.425; % Frequency 1/s
 a = 0.0147; % m
 w = 2*pi*f; % 1/s
 k = 8.172; % 1/m
-z = linspace(-0.23,0.05,200);
-U_ex = a*w*exp(k*z); %Stokes
-%Linear
+z = linspace(-0.2,0,200);
+U_ex = a*w*exp(k*z);
 
 
 for k = [3]
