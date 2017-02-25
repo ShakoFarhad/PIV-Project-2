@@ -53,12 +53,12 @@ z = linspace(-0.2,0,200);
 U_ex = a*w*exp(k*z);
 
 
-for k = [3]
+for j = [3]
     figure
     counter = 0;
     for n = [72, 64, 60, 56, 52, 44] % Subwindow size in pixels
         overlap = 0.5; % Percentage overlap 
-        m = floor(n/k); %Search area size in pixels
+        m = floor(n/j); %Search area size in pixels
         
         % First pass with masks
         opt1 = setpivopt('range',[-m m -m m],'subwindow',n,n,overlap);
