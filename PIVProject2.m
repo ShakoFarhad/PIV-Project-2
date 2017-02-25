@@ -111,4 +111,5 @@ quiver(xw, yw, Uw, Vw, 5, 'w')
 hold off
 title(['Velocity field','. Amplitude = ', num2str(a)])
 colormap winter
+caxis([-0.3 0.3])
 c = colorbar;

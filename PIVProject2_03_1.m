@@ -48,7 +48,7 @@ f = 1.425; % Frequency 1/s
 a = 0.014725; % m
 w = 2*pi*f; % 1/s
 k = 8.172; % 1/m
-z = linspace(-0.2,0,200);
+z = linspace(-0.2,0.04,200);
 U_ex = a*w*exp(k*z);
 
 % Finding the optimal subwindow size and search range
@@ -140,4 +140,5 @@ quiver(xw, yw, Uw, Vw, 5, 'w')
 hold off
 title(['Velocity field','. Amplitude = ', num2str(a)])
 colormap winter
+caxis([-0.3 0.3])
 c = colorbar;
