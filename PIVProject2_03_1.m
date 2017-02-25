@@ -51,7 +51,9 @@ k = 8.172; % 1/m
 z = linspace(-0.2,0,200);
 U_ex = a*w*exp(k*z);
 
-for j = [3]
+% Finding the optimal subwindow size and search range
+
+for j = [3, 4]
     figure
     counter = 0;
     for n = [72, 64, 60, 56, 52, 44] % Subwindow size in pixels
@@ -96,34 +98,9 @@ for j = [3]
     end
 end
 
-[U2,V2,x2,y2] = replaceoutliers(piv1);
-
-figure
-load wind
-cav = curl(x2,y2,U2,V2); %plotting vorticity
-pcolor(x2,y2,cav); shading interp
-hold on;
-quiver(x2,y2,U2,V2, 3, 'y')
-hold off
-colormap winter
-xlabel(' u ');
-c = colorbar;
-ylabel(c,' z ');
-axis ij
-
-[U2,V2,x2,y2] = replaceoutliers(piv1,mask1&mask2);
-figure
-quiver(x2,y2,U2,V2, 3)
-xlabel(' u ');
-ylabel(' z ');
-axis ij
 
 
-
-
-
-
-
+% Plotting the optimal subwindow size
 
 n = 72; % Subwindow size. Value found from above for loop.
 m = floor(n/3); % Search area size in pixels  
@@ -147,19 +124,20 @@ for i = 1:size(piv1.V,2)
         columnIndex = i;
     end
 end
-    
-% Plotting the different U velocities in world frame in each subplot.
+
+
+
+% Plotting Velocity field with Quiver
+
+[U2,V2,x2,y2] = replaceoutliers(piv1);
+[Uw,Vw,xw,yw] = pixel2world(tform,U2,V2,x2,y2,dt);
+
 figure
-plot(Uw(:,columnIndex),yw(:,columnIndex))
-hold on
-    
-% Plotting the analytical solution
-plot(U_ex, z)
-hold on
-
-title(['k*a = ', num2str(k*a), '. Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
-
-legend('PIV U', 'U exact')
-
-xlabel(' u [ m/s ] ');
-ylabel(' z [ m ] ')');
+load wind
+pcolor(xw,yw,Uw); shading interp
+hold on;
+quiver(xw, yw, Uw, Vw, 5, 'w')
+hold off
+title(['Velocity field','. Amplitude = ', num2str(a)])
+colormap winter
+c = colorbar;

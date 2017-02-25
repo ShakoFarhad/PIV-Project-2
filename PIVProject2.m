@@ -49,16 +49,15 @@ a = 0.0147; % m
 w = 2*pi*f; % 1/s
 k = 8.172; % 1/m
 z = linspace(-0.2, 0,200);
-U_ex = a*w*exp(k*z); %Stokes
-%Linear
+U_ex = a*w*exp(k*z); 
 
 
 for n = [72, 64, 60, 56, 52, 44] % Subwindow size in pixels
     figure
     counter = 0;
-    for k = [2, 3, 4, 5]
+    for j = [2, 3, 4, 5]
         overlap = 0.5; % Percentage overlap 
-        m = floor(n/k); %Search area size in pixels
+        m = floor(n/j); %Search area size in pixels
         
         % First pass with masks
         opt1 = setpivopt('range',[-m m -m m],'subwindow',n,n,overlap);
@@ -98,24 +97,18 @@ for n = [72, 64, 60, 56, 52, 44] % Subwindow size in pixels
     end
 end
 
+
+% Plotting Velocity field with Quiver
+
 [U2,V2,x2,y2] = replaceoutliers(piv1);
+[Uw,Vw,xw,yw] = pixel2world(tform,U2,V2,x2,y2,dt);
 
 figure
 load wind
-cav = curl(x2,y2,U2,V2); %plotting vorticity
-pcolor(x2,y2,cav); shading interp
+pcolor(xw,yw,Uw); shading interp
 hold on;
-quiver(x2,y2,U2,V2, 3, 'y')
+quiver(xw, yw, Uw, Vw, 5, 'w')
 hold off
+title(['Velocity field','. Amplitude = ', num2str(a)])
 colormap winter
-xlabel(' u ');
 c = colorbar;
-ylabel(c,' z ');
-axis ij
-
-[U2,V2,x2,y2] = replaceoutliers(piv1,mask1&mask2);
-figure
-quiver(x2,y2,U2,V2, 3)
-xlabel(' u ');
-ylabel(' z ');
-axis ij
