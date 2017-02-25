@@ -47,16 +47,16 @@ g = 9.81; % m/s^2
 f = 1.425; % Frequency 1/s
 a = 0.0147; % m
 w = 2*pi*f; % 1/s
-k = w^2/g; % 1/m
-z = linspace(-0.23,0.05,200);
+k = 8.172; % 1/m
+z = linspace(-0.2, 0,200);
 U_ex = a*w*exp(k*z); %Stokes
 %Linear
 
 
-for k = [3]
+for n = [72, 64, 60, 56, 52, 44] % Subwindow size in pixels
     figure
     counter = 0;
-    for n = [64, 60, 56, 52, 48, 44] % Subwindow size in pixels
+    for k = [2, 3, 4, 5]
         overlap = 0.5; % Percentage overlap 
         m = floor(n/k); %Search area size in pixels
         
@@ -82,7 +82,7 @@ for k = [3]
     
         % Plotting the different U velocities in world frame in each subplot.
         counter = counter + 1;
-        subplot(3,2,counter)
+        subplot(2,2,counter)
         plot(Uw(:,columnIndex),yw(:,columnIndex))
         hold on
     
@@ -90,14 +90,7 @@ for k = [3]
         plot(U_ex, z)
         hold on
 
-        if(k*a >= 0.3)
-            title(['--Stokes 3rd order--  Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
-        elseif(k*a < 0.3 && k*a > 0.1)
-            title(['--Stokes--  Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
-            
-        elseif(k*a < 0.1)
-            title(['--Linear--  Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
-        end
+        title(['k*a = ', num2str(k*a), '. Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
         legend('PIV U', 'U exact')
         
         xlabel(' u [ m/s ] ');

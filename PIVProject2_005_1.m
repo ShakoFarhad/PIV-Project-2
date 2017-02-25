@@ -56,7 +56,7 @@ U_ex = a*w*exp(k*z);
 for k = [3]
     figure
     counter = 0;
-    for n = [72, 64, 60, 56, 52, 44] % Subwindow size in pixels 
+    for n = [72, 64, 60, 56, 52, 44] % Subwindow size in pixels
         overlap = 0.5; % Percentage overlap 
         m = floor(n/k); %Search area size in pixels
         
@@ -90,14 +90,7 @@ for k = [3]
         plot(U_ex, z)
         hold on
 
-        if(k*a >= 0.3)
-            title(['--Stokes 3rd order--  Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
-        elseif(k*a < 0.3 && k*a > 0.1)
-            title(['--Stokes--  Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
-            
-        elseif(k*a < 0.1)
-            title(['--Linear--  Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
-        end
+        title(['k*a = ', num2str(k*a), '. Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
         legend('PIV U', 'U exact')
         
         xlabel(' u [ m/s ] ');
@@ -126,6 +119,11 @@ quiver(x2,y2,U2,V2, 3)
 xlabel(' u ');
 ylabel(' z ');
 axis ij
+
+
+
+
+
 
 
 
@@ -166,4 +164,4 @@ title(['k*a = ', num2str(k*a), '. Subwindow size = ', num2str(n), ', search rang
 legend('PIV U', 'U exact')
 
 xlabel(' u [ m/s ] ');
-ylabel(' z [ m ] ');
+ylabel(' z [ m ] ')

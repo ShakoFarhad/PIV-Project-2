@@ -51,7 +51,6 @@ k = 8.172; % 1/m
 z = linspace(-0.2,0,200);
 U_ex = a*w*exp(k*z);
 
-
 for k = [3]
     figure
     counter = 0;
@@ -67,50 +66,7 @@ for k = [3]
         [Uw,Vw,xw,yw] = pixel2world(tform,U1,V1,x,y,dt);
    
         % Finding the lowest vertical velocity coordinate, ie. finding the
-        % index for the column on = 72; % Subwindow size. Value found from above for loop.
-m = floor(n/3); % Search area size in pixels  
-
-% First pass with masks
-opt1 = setpivopt('range',[-m m -m m],'subwindow', n, n, 0.5);
-piv1 = normalpass([],im1,mask1,im2,mask2,opt1);
-dt = 0.01;
-[U1,V1,x,y] = replaceoutliers(piv1,mask1&mask2);
-[Uw,Vw,xw,yw] = pixel2world(tform,U1,V1,x,y,dt);
-   
-% Finding the lowest vertical velocity coordinate, ie. finding the
-% index for the column of piv1.V, where piv1.V has the lowest velocity.
-columnSize = 0;
-minimumColumnSize = 100000;
-columnIndex = 0;
-for i = 1:size(piv1.V,2)
-    columnSize = sum(abs(piv1.V(:,i)))/size(piv1.V,2);   
-    if(columnSize < minimumColumnSize)     
-        minimumColumnSize = columnSize;   
-        columnIndex = i;
-    end
-end
-    
-% Plotting the different U velocities in world frame in each subplot.
-figure
-plot(Uw(:,columnIndex),yw(:,columnIndex))
-hold on
-    
-% Plotting the analytical solution
-plot(U_ex, z)
-hold on
-
-if(k*a >= 0.3)   
-    title(['--Stokes 3rd order--  Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
-elseif(k*a < 0.3 && k*a > 0.1)
-    title(['--Stokes--  Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
-elseif(k*a < 0.1)
-    title(['--Linear--  Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
-end
-
-legend('PIV U', 'U exact')
-
-xlabel(' u [ m/s ] ');
-ylabel(' z [ m ] ');f piv1.V, where piv1.V has the lowest velocity.
+        % index for the column of piv1.V, where piv1.V has the lowest velocity.
         columnSize = 0;
         minimumColumnSize = 100000;
         columnIndex = 0;
@@ -132,14 +88,7 @@ ylabel(' z [ m ] ');f piv1.V, where piv1.V has the lowest velocity.
         plot(U_ex, z)
         hold on
 
-        if(k*a >= 0.3)
-            title(['--Stokes 3rd order--  Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
-        elseif(k*a < 0.3 && k*a > 0.1)
-            title(['--Stokes--  Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
-            
-        elseif(k*a < 0.1)
-            title(['--Linear--  Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
-        end
+        title(['k*a = ', num2str(k*a), '. Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
         legend('PIV U', 'U exact')
         
         xlabel(' u [ m/s ] ');
@@ -168,6 +117,11 @@ quiver(x2,y2,U2,V2, 3)
 xlabel(' u ');
 ylabel(' z ');
 axis ij
+
+
+
+
+
 
 
 
@@ -203,13 +157,7 @@ hold on
 plot(U_ex, z)
 hold on
 
-if(k*a >= 0.3)   
-    title(['--Stokes 3rd order--  Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
-elseif(k*a < 0.3 && k*a > 0.1)
-    title(['--Stokes--  Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
-elseif(k*a < 0.1)
-    title(['--Linear--  Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
-end
+title(['k*a = ', num2str(k*a), '. Subwindow size = ', num2str(n), ', search range = ', num2str(m), ' and overlap = ', num2str(overlap*100), '%.'])
 
 legend('PIV U', 'U exact')
 
